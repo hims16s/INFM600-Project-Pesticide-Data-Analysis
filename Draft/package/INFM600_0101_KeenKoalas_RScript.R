@@ -120,12 +120,13 @@ colnames(stat_14_varieties) <- c("Frequency", "Percentage") #Set the headers of 
 
 ##Run stats (frequency, percentage) to prepare for pesticide comparison by state for conventional apples.
 stat_14_states <- data.frame(sort(summary(Samples_2014_Regular$STATE), decreasing=T)) #Count the number of apples in each variety for 2014's conventional samples and sort by frequency in descending order to find the states with the most samples. Store the result in a data frame.
-stat_14_states <- data.frame(stat_14_states, round(stat_14_states[1]/sum(stat_14_states)*100,2)) #Calculate the percentage each state makes up of the total number of samples for 2014, round to 2 decimal places, and add the results as a column to the data frame.
+stat_14_states <- data.frame(stat_14_states, round(stat_14_states[1]/sum(stat_14_states)*100,2)) #Calculate the percentage each state makes up of the total number of conventional samples for 2014, round to 2 decimal places, and add the results as a column to the data frame.
 colnames(stat_14_states) <- c("Frequency", "Percentage") #Set the headers of the columns as "Frequency" and "Percentage" for clarification.
 
 ##Setup the variables for storing the average number of pesticides per sample and average residue concentration in preparation for storing the results from the 'for' loops below.
 variety_14_avgPestcode <-c() #Variable for average number of pesticides per sample for the variety.
 variety_14_avgCONCEN <- c() #Variable for average concentration amount for the variety.
+variety_14_CountCONCEN <- c() #Variable for total number of residue concentrations detected for the variety. (Added due to need to shorten the list of varieties from 23 to top 10 and "others" for plotting. For calculating the weighted mean of the lower frequency varieties after combining all of them into one group.)
 state_14_avgPestcode <- c() #Variable for average number of pesticides per sample for the state.
 state_14_avgCONCEN <- c() #Variable for average concentration amount for the state.
 
@@ -149,11 +150,12 @@ for(i in 1:length(stat_14_varieties$Frequency)) #Go through the same process bel
   cat("Std Dev:",sd(eval(as.name(nameResidue))$CONCEN), "\n\n") #Print standard deviation of concentration for this variety.
   
   variety_14_avgPestcode <- c(variety_14_avgPestcode, round(length(eval(as.name(nameResidue))$Pestcode)/length(eval(as.name(namePK))), 3)) #calculate average number of pesticides per sample for the variety (rounding to 3 decimal places), and store it in a variable to be later appended to the stat_14_varieties data frame.
-  variety_14_avgCONCEN <- c(variety_14_avgCONCEN, round(mean(eval(as.name(nameResidue))$CONCEN), 3)) #calculate average concentration amount for the variety (rounding to 3 decimal places), and store it in a variable to be later appended to the stat_14_varieties data frame.
+  variety_14_avgCONCEN <- c(variety_14_avgCONCEN, round(mean(eval(as.name(nameResidue))$CONCEN), 3)) #Calculate average concentration amount for the variety (rounding to 3 decimal places), and store it in a variable to be later appended to the stat_14_varieties data frame.
+  variety_14_CountCONCEN <- c(variety_14_CountCONCEN, length(eval(as.name(nameResidue))$CONCEN)) #Calculate the number of residue concentrations detected for this variety and store it in a variable to be later appended to the stat_14_varieties data frame. (Note: this was added to facilitate the shortening of the varieties list from 23 down to the top 10 and "others.")
 }
 
-stat_14_varieties <- data.frame(stat_14_varieties, variety_14_avgPestcode, variety_14_avgCONCEN) #appending the vectors for average # of pesticides and average concentration to the stat_14_varieties data frame.
-colnames(stat_14_varieties) <- c("Frequency", "Percentage", "Avg # of Pesticides","Avg Concentration") #Update the headers for the data frame columns for clarification.
+stat_14_varieties <- data.frame(stat_14_varieties, variety_14_avgPestcode, variety_14_avgCONCEN, variety_14_CountCONCEN) #appending the vectors for average # of pesticides, average concentration, and the number of residue concentrations detected to the stat_14_varieties data frame. (Note: the residue concentration count is added to facilitate plot scripting.)
+colnames(stat_14_varieties) <- c("Frequency", "Percentage", "Avg # of Pesticides","Avg Concentration", "Concentration Count") #Update the headers for the data frame columns for clarification.
 
 ##--------------------------------------------------------------------------------------
 
@@ -175,7 +177,7 @@ for(i in 1:length(stat_14_states$Frequency)) #Go through the same process below 
   cat("Std Dev:",sd(eval(as.name(nameResidue))$CONCEN), "\n\n") #Print standard deviation of concentration for this state.
   
   state_14_avgPestcode <- c(state_14_avgPestcode, round(length(eval(as.name(nameResidue))$Pestcode)/length(eval(as.name(namePK))), 3)) #calculate average number of pesticides per sample for the state (rounding to 3 decimal places), and store it in a variable to be later appended to the stat_14_states data frame.
-  state_14_avgCONCEN <- c(state_14_avgCONCEN, round(mean(eval(as.name(nameResidue))$CONCEN), 3)) #calculate average concentration amount for the state (rounding to 3 decimal places), and store it in a variable to be later appended to the stat_14_states data frame.
+  state_14_avgCONCEN <- c(state_14_avgCONCEN, round(mean(eval(as.name(nameResidue))$CONCEN), 3)) #Calculate average concentration amount for the state (rounding to 3 decimal places), and store it in a variable to be later appended to the stat_14_states data frame.
 }
 
 stat_14_states <- data.frame(stat_14_states, state_14_avgPestcode, state_14_avgCONCEN) #appending the vectors for average # of pesticides and average concentration to the stat_14_state data frame.

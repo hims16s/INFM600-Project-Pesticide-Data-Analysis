@@ -43,9 +43,9 @@ stat_14_varieties_top10 <- rbind(stat_14_varieties_top10, stat_14_varieties_othe
 ##ggplot2 code for plotting the average number of pesticides by variety, with a color gradient to show the number of apple samples in the data for that variety. 
 plot_variety_avgPestcode <- ggplot(data=stat_14_varieties_top10, aes(x=factor(rownames(stat_14_varieties_top10), levels=unique(rownames(stat_14_varieties_top10))),y=stat_14_varieties_top10$`Avg # of Pesticides`, fill=stat_14_varieties_top10$Frequency)) + #Using ggplot() to start so different layers can be added to the graph moving down. Plotting data in the top 10 variety data set from above with the varieties on x and avg pesticide # on y. Fill the graph according to the number of samples that exist for that variety.
   geom_bar(stat="identity") + #using a bar graph with y values exactly as they are in the data set.
-  scale_fill_gradient("Samples\nin Variety",low = "#132B43", high = "#56B1F7") + #Set the title of the color legend and define the lower and upper color for the gradient used.
+  scale_fill_gradient("Samples\nin Variety",low = "#428BBF", high = "#132B43") + #Set the title of the color legend and define the lower and upper color for the gradient used.
   labs(title="Average Number of Pesticides by Variety",x="Apple Variety",y="Average Number of Pesticides", caption="Graph displays data for the top 10 varieties based on and ordered by the number of samples in the 2014 data. \nAll remaining varieties are grouped together with samples of unknown variety as \"Others\" to improve readability.") + #Set the title of the plot and the axis labels.
-  theme(plot.title=element_text(face="bold", size="18", hjust=0.5, margin=margin(0,0,10,0)), axis.title.x=element_text(face="bold", size="12", margin=margin(10,0,0,0)), axis.title.y=element_text(face="bold", size="12", margin=margin(0,10,0,0)), plot.caption = element_text(face="italic", hjust=0, size="10", margin=margin(10,0,0,0))) #Set the font size, weight, and margins to improve readability.
+  theme(plot.title=element_text(face="bold", size="18", hjust=0.5, margin=margin(0,0,10,0)), axis.title.x=element_text(face="bold", size="14", margin=margin(-2,0,0,0)), axis.title.y=element_text(face="bold", size="14", margin=margin(0,10,0,0)), plot.caption = element_text(face="italic", hjust=0, size="10", margin=margin(10,0,0,0)), axis.text.x = element_text(size = "12", angle = 15,  margin=margin(10,0,0,0)), axis.text.y = element_text(size = "12")) #Set the font size, weight, and margins to improve readability.
 
 print(plot_variety_avgPestcode) #Output the above graph when the code is sourced.
 
@@ -54,9 +54,9 @@ print(plot_variety_avgPestcode) #Output the above graph when the code is sourced
 ##ggplot2 code for plotting the average concentration by variety, with a color gradient to show the number of apple samples in the data for that variety. 
 plot_variety_avgCONCEN <- ggplot(data=stat_14_varieties_top10, aes(x=factor(rownames(stat_14_varieties_top10), levels=unique(rownames(stat_14_varieties_top10))),y=stat_14_varieties_top10$`Avg Concentration`, fill=stat_14_varieties_top10$Frequency)) + #Using ggplot() to start so different layers can be added to the graph moving down. Plotting data in the top 10 variety data set from above with the varieties on x and avg pesticide # on y. Fill the graph according to the number of samples that exist for that variety.
   geom_bar(stat="identity") + #Instruct the plot to use a bar graph with y values exactly as they are in the data set.
-  scale_fill_gradient("Samples\nin Variety",low = "#132B43", high = "#56B1F7") + #Set the title of the color legend and define the lower and upper color for the gradient used.
+  scale_fill_gradient("Samples\nin Variety", low = "#428BBF", high = "#132B43") + #Set the title of the color legend and define the lower and upper color for the gradient used.
   labs(title="Average Residue Concentration by Variety",x="Apple Variety",y="Average Concentration (ppm)", caption="Graph displays data for the top 10 varieties based on and ordered by the number of samples in the 2014 data. \nAll remaining varieties are grouped together with samples of unknown variety as \"Others\"  to improve readability.") + #Set the title of the plot and the axis labels.
-  theme(plot.title=element_text(face="bold", size="18", hjust=0.5, margin=margin(0,0,10,0)), axis.title.x=element_text(face="bold", size="12", margin=margin(10,0,0,0)), axis.title.y=element_text(face="bold", size="12", margin=margin(0,10,0,0)), plot.caption = element_text(face="italic", hjust=0, size="10", margin=margin(10,0,0,0))) #Set the font size, weight, and margins to improve readability.
+  theme(plot.title=element_text(face="bold", size="18", hjust=0.5, margin=margin(0,0,10,0)), axis.title.x=element_text(face="bold", size="14", margin=margin(-2,0,0,0)), axis.title.y=element_text(face="bold", size="14", margin=margin(0,10,0,0)), plot.caption = element_text(face="italic", hjust=0, size="10", margin=margin(10,0,0,0)), axis.text.x = element_text(size = "12", angle = 15,  margin=margin(10,0,0,0)), axis.text.y = element_text(size = "12")) #Set the font size, weight, and margins to improve readability.
 
 print(plot_variety_avgCONCEN) #Output the above graph when the code is sourced.
 
@@ -65,18 +65,22 @@ print(plot_variety_avgCONCEN) #Output the above graph when the code is sourced.
 #Plot average concentration of pesticides by state and by grade.
 
 #Avg. Concentration by State:
-Avg_Conc_State_Plot <- ggplot(stat_14_states, aes(x=rownames(stat_14_states), y=`Avg Concentration`, fill=stat_14_states$Frequency)) + geom_bar(stat="identity", width=.8) + xlab("States") + ylab("Avg. Conc. (ppm)") + ggtitle("Average Concentration by State") + scale_fill_gradient("Samples \n in State", low="#132B43", high="#56B1F7")
+Avg_Conc_State_Plot <- ggplot(stat_14_states, aes(x=rownames(stat_14_states), y=`Avg Concentration`, fill=stat_14_states$Frequency)) + geom_bar(stat="identity", width=.8) + xlab("States") + ylab("Avg. Conc. (ppm)") + ggtitle("Average Concentration by State") + scale_fill_gradient("Samples \n in State", low = "#428BBF", high = "#132B43") +
+  theme(plot.title=element_text(face="bold", size="18", hjust=0.5, margin=margin(0,0,10,0)), axis.title.x=element_text(face="bold", size="14", margin=margin(15,0,0,0)), axis.title.y=element_text(face="bold", size="14", margin=margin(0,10,0,0)), plot.caption = element_text(face="italic", hjust=0, size="10", margin=margin(10,0,0,0)), axis.text.x = element_text(size = "12"), axis.text.y = element_text(size = "12")) #Set the font size, weight, and margins to improve readability.
 
 #Avg Concentration by Grade:
-Avg_Conc_Grade_Plot <- ggplot(stat_14_grade, aes(x=rownames(stat_14_grade), y=`Avg Concentration`, fill=stat_14_grade$`# of Samples`)) + geom_bar(stat="identity", width=.8) + xlab("Apple Grade") + ylab("Avg. Conc. (ppm)") + ggtitle("Average Concentration by Grade") + scale_fill_gradient("Samples \n in Grade", low="#132B43", high="#56B1F7")
+Avg_Conc_Grade_Plot <- ggplot(stat_14_grade, aes(x=rownames(stat_14_grade), y=`Avg Concentration`, fill=stat_14_grade$`# of Samples`)) + geom_bar(stat="identity", width=.8) + xlab("Apple Grade") + ylab("Avg. Conc. (ppm)") + ggtitle("Average Concentration by Grade") + scale_fill_gradient("Samples \n in Grade", low = "#428BBF", high = "#132B43") +
+  theme(plot.title=element_text(face="bold", size="18", hjust=0.5, margin=margin(0,0,10,0)), axis.title.x=element_text(face="bold", size="14", margin=margin(15,0,0,0)), axis.title.y=element_text(face="bold", size="14", margin=margin(0,10,0,0)), plot.caption = element_text(face="italic", hjust=0, size="10", margin=margin(10,0,0,0)), axis.text.x = element_text(size = "12"), axis.text.y = element_text(size = "12")) #Set the font size, weight, and margins to improve readability.
 
 #Plot average number of pesticides detected by state and by grade.
 
 #Avg. # of Pesticides by State:
-Avg_No_State_Plot <- ggplot(stat_14_states, aes(x=rownames(stat_14_states), y=`Avg # of Pesticides`, fill=stat_14_states$Frequency)) + geom_bar(stat="identity", width=.8) + xlab("States") + ylab("Avg. Number of Pesticides") + ggtitle("Average Number of Pesticides by State") + scale_fill_gradient("Samples \n in State", low="#132B43", high="#56B1F7")
+Avg_No_State_Plot <- ggplot(stat_14_states, aes(x=rownames(stat_14_states), y=`Avg # of Pesticides`, fill=stat_14_states$Frequency)) + geom_bar(stat="identity", width=.8) + xlab("States") + ylab("Avg. Number of Pesticides") + ggtitle("Average Number of Pesticides by State") + scale_fill_gradient("Samples \n in State", low = "#428BBF", high = "#132B43")+
+  theme(plot.title=element_text(face="bold", size="18", hjust=0.5, margin=margin(0,0,10,0)), axis.title.x=element_text(face="bold", size="14", margin=margin(15,0,0,0)), axis.title.y=element_text(face="bold", size="14", margin=margin(0,10,0,0)), plot.caption = element_text(face="italic", hjust=0, size="10", margin=margin(10,0,0,0)), axis.text.x = element_text(size = "12"), axis.text.y = element_text(size = "12")) #Set the font size, weight, and margins to improve readability.
 
 #Avg. # of Pesticides by Grade:
-Avg_No_Grade_Plot <- ggplot(stat_14_grade, aes(x=rownames(stat_14_grade), y=`Avg # of Pesticides`, fill=stat_14_grade$`# of Samples`)) + geom_bar(stat="identity", width=.8) + xlab("Apple Grade") + ylab("Avg. Number of Pesticides") + ggtitle("Average Number of Pesticides by Grade") + scale_fill_gradient("Samples \n in Grade", low="#132B43", high="#56B1F7")
+Avg_No_Grade_Plot <- ggplot(stat_14_grade, aes(x=rownames(stat_14_grade), y=`Avg # of Pesticides`, fill=stat_14_grade$`# of Samples`)) + geom_bar(stat="identity", width=.8) + xlab("Apple Grade") + ylab("Avg. Number of Pesticides") + ggtitle("Average Number of Pesticides by Grade") + scale_fill_gradient("Samples \n in Grade", low = "#428BBF", high = "#132B43") +
+  theme(plot.title=element_text(face="bold", size="18", hjust=0.5, margin=margin(0,0,10,0)), axis.title.x=element_text(face="bold", size="14", margin=margin(15,0,0,0)), axis.title.y=element_text(face="bold", size="14", margin=margin(0,10,0,0)), plot.caption = element_text(face="italic", hjust=0, size="10", margin=margin(10,0,0,0)), axis.text.x = element_text(size = "12"), axis.text.y = element_text(size = "12")) #Set the font size, weight, and margins to improve readability.
 
 #Print the 4 graphs above.
 print(Avg_Conc_State_Plot)
@@ -102,15 +106,15 @@ reg_org_combined_que1<-rbind(pest_data_14_plot,pest_data_04_plot)
 #Adding a column called Pesticide Name for each of the Pestcodes and give the appropriate name for each pesticide.
 reg_org_combined_que1["Pesticide_Name"]<-NA
 
-reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='125' ] <- "Diphenylamine(DPA)"
+reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='125' ] <- "Diphenylamine (DPA)"
 reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='157' ] <- "Thiabendazole"
-reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='666' ] <- "Carbendazim(MBC)"
+reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='666' ] <- "Carbendazim (MBC)"
 reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='ABC' ] <- "Spinosad A"
 reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='102' ] <-"Carbaryl"
 reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='159' ] <-"Methomyl"
 reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='24' ] <-"Diazinon"
 reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='382' ] <-"1-Napthol"
-reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='624' ] <-"Tetrahydrophthalimide(THPI)"
+reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='624' ] <-"Tetrahydrophthalimide (THPI)"
 reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='679' ] <-"Miclobutanyl"
 reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='808' ] <-"Fenpropathrin"
 reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='83' ] <-"O-Phenylphenol"
@@ -124,7 +128,9 @@ reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='B22' ] <-
 reg_org_combined_que1$Pesticide_Name[reg_org_combined_que1$Pestcode =='B80' ] <-"Acetamiprid"
 
 # Plotting the comparison of apple samples of 2004 and 2014 to plot the changes in the average concentrations found in the samples over the years.
-print(ggplot(data=reg_org_combined_que1,aes(x=reorder(Pesticide_Name,-freq),y=CONCEN)) + geom_bar(aes(fill=Year),stat="identity",position = "dodge")  + ggtitle("Pesticide Residue Comparison: 2014 vs 2004") + labs(x="Pesticide Name",y="Average Concentration (ppm)") + theme(axis.text.x=element_text(size=8,angle = 20)))
+print(ggplot(data=reg_org_combined_que1,aes(x=reorder(Pesticide_Name,-freq),y=CONCEN)) + geom_bar(aes(fill=Year),stat="identity",position = "dodge")  + ggtitle("Pesticide Residue Comparison: 2014 vs 2004") + labs(x="Pesticide Name",y="Average Concentration (ppm)") + 
+        theme(plot.title=element_text(face="bold", size="18", hjust=0.5, margin=margin(0,0,10,0)), axis.title.x=element_text(face="bold", size="14", margin=margin(-15,0,0,0)), axis.title.y=element_text(face="bold", size="14", margin=margin(0,10,0,0)), plot.caption = element_text(face="italic", hjust=0, size="10", margin=margin(10,0,0,0)), axis.text.x = element_text(size = "11", angle = 25, margin=margin(15,0,0,0)), axis.text.y = element_text(size = "12")) #Set the font size, weight, and margins to improve readability.
+      )
 
 ##======================================================================================
 
@@ -143,10 +149,12 @@ reg_org_combined_que2<-rbind(pest_data_org_14_plot,pest_data_reg_14_plot)
 
 #Adding a column called Pesticide Name for each of the Pestcodes and giving the appropriate name.
 reg_org_combined_que2["Pesticide_Name"]<-NA
-reg_org_combined_que2$Pesticide_Name[reg_org_combined_que2$Pestcode =='125' ] <- "Diphenylamine(DPA)"
+reg_org_combined_que2$Pesticide_Name[reg_org_combined_que2$Pestcode =='125' ] <- "Diphenylamine (DPA)"
 reg_org_combined_que2$Pesticide_Name[reg_org_combined_que2$Pestcode =='157' ] <- "Thiabendazole"
-reg_org_combined_que2$Pesticide_Name[reg_org_combined_que2$Pestcode =='666' ] <- "Carbendazim(MBC)"
+reg_org_combined_que2$Pesticide_Name[reg_org_combined_que2$Pestcode =='666' ] <- "Carbendazim (MBC)"
 reg_org_combined_que2$Pesticide_Name[reg_org_combined_que2$Pestcode =='ABC' ] <- "Spinosad A"
 
 # Plotting the comparison of organic vs regular apples to show the average concentration found in various pesticides in the sample selected above.
-print(ggplot(data=reg_org_combined_que2,aes(x=reorder(Pesticide_Name,-freq),y=CONCEN)) + geom_bar(aes(fill=Type),stat="identity",position = "dodge")  + ggtitle("Pesticide Residue Comparison: Organic vs Regular - 2014") + labs(x="Pesticide Name",y="Average Concentration (ppm)") + theme(axis.text.x=element_text(size=8)))
+print(ggplot(data=reg_org_combined_que2,aes(x=reorder(Pesticide_Name,-freq),y=CONCEN)) + geom_bar(aes(fill=Type),stat="identity",position = "dodge")  + ggtitle("Pesticide Residue Comparison: Organic vs Regular - 2014") + labs(x="Pesticide Name",y="Average Concentration (ppm)") + 
+        theme(plot.title=element_text(face="bold", size="18", hjust=0.5, margin=margin(0,0,10,0)), axis.title.x=element_text(face="bold", size="14", margin=margin(15,0,0,0)), axis.title.y=element_text(face="bold", size="14", margin=margin(0,10,0,0)), plot.caption = element_text(face="italic", hjust=0, size="10", margin=margin(10,0,0,0)), axis.text.x = element_text(size = "12"), axis.text.y = element_text(size = "12")) #Set the font size, weight, and margins to improve readability.
+      )
