@@ -1,9 +1,14 @@
 ##KeenKoalas - R Script Draft
 
+
 ##This script is made up of the following sections:
+
 ## - Set working directory and Call the "Data_Cleaning.R" script (from the data cleaning portion of the project) to import the data for this project and do basic initial data setup.
+
 ## - Make preparations for analysis by creating subsets of the data with various conditions and printing the basic statistics for the relevant variables in the subsets. 
+
 ## - Create further subsets for use in research on possible differences in pesticide residues by variety, state, and grade labeling. Basic statistics for relevant variables in the new subsets are printed where appropriate.
+
 ## - Create data frames with the frequency and average concentrations of pesticides for research on residue related changes between 2004 and 2014, as well as differences between conventional versus organic samples. Basic statistics for relevant variables in the new subsets are printed for the final resulting data frames.
 
 ##======================================================================================
@@ -14,12 +19,14 @@ if (!exists("wd")) {
   setwd(wd)
 }
 
-#Source the Data_Cleaning.R script to perform data importing and setup.
-source("Data_Cleaning.R")
+#Source the Data Cleaning R script to perform data importing and setup.
+source("INFM600_0101_KeenKoalas_DataCleaningScript.R")
 
 ##======================================================================================
 
 ##Preparation: Creating different subsets of data in preparation for running analysis and print the summary statistics for columns relevant to our research questions.
+
+#***
 
 #Create data subset of only organic samples by excluding samples with no pesticide related claims (i.e., conventional) from the CLAIM variable for both 2014 and 2004, respectively.
 Samples_2014_Organic <- subset(Samples_2014, Samples_2014$CLAIM != "NC") #2014 data
@@ -33,61 +40,89 @@ Samples_2004_Regular <- subset(Samples_2004, Samples_2004$CLAIM == "NC") #2004 d
 Results_2014_Detected <- subset(Results_2014, !is.na(Results_2014$CONCEN)) #2014 data
 Results_2004_Detected <- subset(Results_2004, !is.na(Results_2004$CONCEN)) #2004 data
 
+#***
+
 #Print basic statistics of the 2 variables relevant to our research (pesticide code and concentration amount) from the two results data subsets above, along with the standard deviation of the concentration data.
+
 cat("Statistics - 2014 Results with Detected Residue\n")
 print(summary(Results_2014_Detected[c("Pestcode","CONCEN")]))
-cat("Std Dev:",sd(Results_2014_Detected$CONCEN), "\n\n")
+cat("Std Dev:",sd(Results_2014_Detected$CONCEN, na.rm=TRUE), "\n\n")
+
 cat("Statistics - 2004 Results with Detected Residue\n")
 print(summary(Results_2004_Detected[c("Pestcode","CONCEN")]))
-cat("Std Dev:",sd(Results_2004_Detected$CONCEN), "\n\n")
+cat("Std Dev:",sd(Results_2004_Detected$CONCEN, na.rm=TRUE), "\n\n")
+
+#***
 
 #Create data subset of all residue test results (both detected and none detected) for only organic samples by including rows from Results where the SAMPLE_PK matches SAMPLE_PK values from the organic samples subset created above.
 Results_2014_Organic <- subset(Results_2014,!is.na(match(Results_2014$SAMPLE_PK,Samples_2014_Organic$SAMPLE_PK))) #2014 data
 Results_2004_Organic <- subset(Results_2004,!is.na(match(Results_2004$SAMPLE_PK,Samples_2004_Organic$SAMPLE_PK))) #2004 data
 
+#***
+
 #Print basic statistics of the 2 variables relevant to our research (pesticide code and concentration amount) from the two results data subsets above, along with the standard deviation of the concentration data.
+
 cat("Statistics - 2014 Results from Organic Samples\n")
 print(summary(Results_2014_Organic[c("Pestcode","CONCEN")]))
-cat("Std Dev:",sd(Results_2014_Organic$CONCEN), "\n\n")
+cat("Std Dev:",sd(Results_2014_Organic$CONCEN, na.rm=TRUE), "\n\n")
+
 cat("Statistics - 2004 Results from Organic Samples\n")
 print(summary(Results_2004_Organic[c("Pestcode","CONCEN")]))
-cat("Std Dev:",sd(Results_2014_Organic$CONCEN), "\n\n")
+cat("Std Dev:",sd(Results_2014_Organic$CONCEN, na.rm=TRUE), "\n\n")
+
+#***
 
 #Create data subset of all residue test results (both detected and none detected) for only conventional samples by including rows from Results where the SAMPLE_PK matches SAMPLE_PK values from the conventional samples subset created above.
 Results_2014_Regular <- subset(Results_2014,!is.na(match(Results_2014$SAMPLE_PK,Samples_2014_Regular$SAMPLE_PK))) #2014 data
 Results_2004_Regular <- subset(Results_2004,!is.na(match(Results_2004$SAMPLE_PK,Samples_2004_Regular$SAMPLE_PK))) #2004 data
 
+#***
+
 #Print basic statistics of the 2 variables relevant to our research (pesticide code and concentration amount) from the two results data subsets above, along with the standard deviation of the concentration data.
+
 cat("Statistics - 2014 Results from Conventional Samples\n")
 print(summary(Results_2014_Regular[c("Pestcode","CONCEN")]))
-cat("Std Dev:",sd(Results_2014_Regular$CONCEN), "\n\n")
+cat("Std Dev:",sd(Results_2014_Regular$CONCEN, na.rm=TRUE), "\n\n")
+
 cat("Statistics - 2004 Results from Conventional Samples\n")
 print(summary(Results_2004_Regular[c("Pestcode","CONCEN")]))
-cat("Std Dev:",sd(Results_2014_Regular$CONCEN), "\n\n")
+cat("Std Dev:",sd(Results_2014_Regular$CONCEN, na.rm=TRUE), "\n\n")
+
+#***
 
 #Create data subset of only detected residue test results for organic samples by excluding rows with null for the CONCEN variable (residue concentration) from the previously created organic results subsets.
 Results_2014_Organic_Detected <- subset(Results_2014_Organic, !is.na(Results_2014_Organic$CONCEN)) #2014 data
 Results_2004_Organic_Detected <- subset(Results_2004_Organic, !is.na(Results_2004_Organic$CONCEN)) #2004 data
 
+#***
+
 #Print basic statistics of the 2 variables relevant to our research (pesticide code and concentration amount) from the two results data subsets above, along with the standard deviation of the concentration data.
+
 cat("Statistics - 2014 Detected Residue Results from Organic Samples\n")
 print(summary(Results_2014_Organic_Detected[c("Pestcode","CONCEN")]))
-cat("Std Dev:",sd(Results_2014_Organic_Detected$CONCEN), "\n\n")
+cat("Std Dev:",sd(Results_2014_Organic_Detected$CONCEN, na.rm=TRUE), "\n\n")
+
 cat("Statistics - 2004 Detected Residue Results from Organic Samples\n")
 print(summary(Results_2004_Organic_Detected[c("Pestcode","CONCEN")]))
-cat("Std Dev:",sd(Results_2014_Organic_Detected$CONCEN), "\n\n")
+cat("Std Dev:",sd(Results_2014_Organic_Detected$CONCEN, na.rm=TRUE), "\n\n")
+
+#***
 
 #Create data subset of only detected residue test results for conventional samples by excluding rows with null for CONCEN (residue concentration) from the previously created conventional results subsets.
 Results_2014_Regular_Detected <- subset(Results_2014_Regular, !is.na(Results_2014_Regular$CONCEN)) #2014 data
 Results_2004_Regular_Detected <- subset(Results_2004_Regular, !is.na(Results_2004_Regular$CONCEN)) #2004 data
 
+#***
+
 #Print basic statistics of the 2 variables relevant to our research (pesticide code and concentration amount) from the two results data subsets above, along with the standard deviation of the concentration data.
+
 cat("Statistics - 2014 Detected Residue Results from Conventional Samples\n")
 print(summary(Results_2014_Regular_Detected[c("Pestcode","CONCEN")]))
-cat("Std Dev:",sd(Results_2014_Regular_Detected$CONCEN), "\n\n")
+cat("Std Dev:",sd(Results_2014_Regular_Detected$CONCEN, na.rm=TRUE), "\n\n")
+
 cat("Statistics - 2004 Detected Residue Results from Conventional Samples\n")
 print(summary(Results_2004_Regular_Detected[c("Pestcode","CONCEN")]))
-cat("Std Dev:",sd(Results_2014_Regular_Detected$CONCEN), "\n\n")
+cat("Std Dev:",sd(Results_2014_Regular_Detected$CONCEN, na.rm=TRUE), "\n\n")
 
 ##--------------------------------------------------------------------------------------
 
@@ -113,17 +148,27 @@ print(round(length(Results_2004_Organic_Detected$SAMPLE_PK)/length(Samples_2004_
 
 ## This section of the script creates subsets for looking into possible differences in pesticide residues by variety, state, and grade labeling.
 
+#***
+
 ##Run stats (frequency, percentage) to prepare for pesticide comparison by variety for conventional apples.
+
 stat_14_varieties <- data.frame(sort(summary(Samples_2014_Regular$VARIETY), decreasing=T)) #Count the number of apples in each variety for 2014's conventional samples and sort by frequency in descending order to find the varieties with the most samples. Store the result in a data frame.
+
 stat_14_varieties <- data.frame(stat_14_varieties, round(stat_14_varieties[1]/sum(stat_14_varieties)*100,2)) #Calculate the percentage each variety makes up of the total number of samples for 2014, round to 2 decimal places, and add the results as a column to the data frame.
 colnames(stat_14_varieties) <- c("Frequency", "Percentage") #Set the headers of the columns as "Frequency" and "Percentage" for clarification.
 
+#***
+
 ##Run stats (frequency, percentage) to prepare for pesticide comparison by state for conventional apples.
+
 stat_14_states <- data.frame(sort(summary(Samples_2014_Regular$STATE), decreasing=T)) #Count the number of apples in each variety for 2014's conventional samples and sort by frequency in descending order to find the states with the most samples. Store the result in a data frame.
+
 stat_14_states <- data.frame(stat_14_states, round(stat_14_states[1]/sum(stat_14_states)*100,2)) #Calculate the percentage each state makes up of the total number of conventional samples for 2014, round to 2 decimal places, and add the results as a column to the data frame.
 colnames(stat_14_states) <- c("Frequency", "Percentage") #Set the headers of the columns as "Frequency" and "Percentage" for clarification.
+#***
 
 ##Setup the variables for storing the average number of pesticides per sample and average residue concentration in preparation for storing the results from the 'for' loops below.
+
 variety_14_avgPestcode <-c() #Variable for average number of pesticides per sample for the variety.
 variety_14_avgCONCEN <- c() #Variable for average concentration amount for the variety.
 variety_14_CountCONCEN <- c() #Variable for total number of residue concentrations detected for the variety. (Added due to need to shorten the list of varieties from 23 to top 10 and "others" for plotting. For calculating the weighted mean of the lower frequency varieties after combining all of them into one group.)
@@ -147,14 +192,17 @@ for(i in 1:length(stat_14_varieties$Frequency)) #Go through the same process bel
   
   cat(i, rownames(stat_14_varieties)[i],"\n") #Print the current iteration number and name of variety.
   print(summary(eval(as.name(nameResidue))[c("Pestcode","CONCEN")])) #Print summary statistics of pesticides and concentration values for the variety.
-  cat("Std Dev:",sd(eval(as.name(nameResidue))$CONCEN), "\n\n") #Print standard deviation of concentration for this variety.
+  cat("Std Dev:",sd(eval(as.name(nameResidue))$CONCEN, na.rm=TRUE), "\n\n") #Print standard deviation of concentration for this variety.
   
   variety_14_avgPestcode <- c(variety_14_avgPestcode, round(length(eval(as.name(nameResidue))$Pestcode)/length(eval(as.name(namePK))), 3)) #calculate average number of pesticides per sample for the variety (rounding to 3 decimal places), and store it in a variable to be later appended to the stat_14_varieties data frame.
+  
   variety_14_avgCONCEN <- c(variety_14_avgCONCEN, round(mean(eval(as.name(nameResidue))$CONCEN), 3)) #Calculate average concentration amount for the variety (rounding to 3 decimal places), and store it in a variable to be later appended to the stat_14_varieties data frame.
+  
   variety_14_CountCONCEN <- c(variety_14_CountCONCEN, length(eval(as.name(nameResidue))$CONCEN)) #Calculate the number of residue concentrations detected for this variety and store it in a variable to be later appended to the stat_14_varieties data frame. (Note: this was added to facilitate the shortening of the varieties list from 23 down to the top 10 and "others.")
 }
 
 stat_14_varieties <- data.frame(stat_14_varieties, variety_14_avgPestcode, variety_14_avgCONCEN, variety_14_CountCONCEN) #appending the vectors for average # of pesticides, average concentration, and the number of residue concentrations detected to the stat_14_varieties data frame. (Note: the residue concentration count is added to facilitate plot scripting.)
+
 colnames(stat_14_varieties) <- c("Frequency", "Percentage", "Avg # of Pesticides","Avg Concentration", "Concentration Count") #Update the headers for the data frame columns for clarification.
 
 ##--------------------------------------------------------------------------------------
@@ -174,13 +222,15 @@ for(i in 1:length(stat_14_states$Frequency)) #Go through the same process below 
   
   cat(i, rownames(stat_14_states)[i],"\n") #Print the current iteration number and state.
   print(summary(eval(as.name(nameResidue))[c("Pestcode","CONCEN")]))  #Print summary statistics of pesticides and concentration values for the state.
-  cat("Std Dev:",sd(eval(as.name(nameResidue))$CONCEN), "\n\n") #Print standard deviation of concentration for this state.
+  cat("Std Dev:",sd(eval(as.name(nameResidue))$CONCEN, na.rm=TRUE), "\n\n") #Print standard deviation of concentration for this state.
   
   state_14_avgPestcode <- c(state_14_avgPestcode, round(length(eval(as.name(nameResidue))$Pestcode)/length(eval(as.name(namePK))), 3)) #calculate average number of pesticides per sample for the state (rounding to 3 decimal places), and store it in a variable to be later appended to the stat_14_states data frame.
+  
   state_14_avgCONCEN <- c(state_14_avgCONCEN, round(mean(eval(as.name(nameResidue))$CONCEN), 3)) #Calculate average concentration amount for the state (rounding to 3 decimal places), and store it in a variable to be later appended to the stat_14_states data frame.
 }
 
 stat_14_states <- data.frame(stat_14_states, state_14_avgPestcode, state_14_avgCONCEN) #appending the vectors for average # of pesticides and average concentration to the stat_14_state data frame.
+
 colnames(stat_14_states) <- c("Frequency", "Percentage", "Avg # of Pesticides","Avg Concentration") #Update the headers for the data frame columns for clarification.
 
 ##--------------------------------------------------------------------------------------
@@ -189,27 +239,37 @@ colnames(stat_14_states) <- c("Frequency", "Percentage", "Avg # of Pesticides","
 ##Separate samples with or without high grade labels and calculate the corresponding average pesticide numbers and concentration amounts. 
 
 highGrade_14_PK <- subset(Samples_2014_Regular$SAMPLE_PK, Samples_2014_Regular$GRADE != "") #Find and store the primary keys of samples with high grade labels (where they don't have an empty GRADE value).
+
 highGrade_14_Pestcode <- subset(Results_2014_Regular_Detected$Pestcode, !is.na(match(Results_2014_Regular_Detected$SAMPLE_PK,highGrade_14_PK))) #Pesticide results matching sample primary keys with high grade labels.
+
 highGrade_14_CONCEN <- subset(Results_2014_Regular_Detected$CONCEN, !is.na(match(Results_2014_Regular_Detected$SAMPLE_PK,highGrade_14_PK))) #Concentration results matching sample primary keys with high grade labels.
 
 lowGrade_14_PK <- subset(Samples_2014_Regular$SAMPLE_PK, Samples_2014_Regular$GRADE == "") #Find and store the primary keys of samples without high grade labels.
+
 lowGrade_14_Pestcode <- subset(Results_2014_Regular_Detected$Pestcode, !is.na(match(Results_2014_Regular_Detected$SAMPLE_PK,lowGrade_14_PK))) #Pesticide results matching sample primary keys without high grade labels.
+
 lowGrade_14_CONCEN <- subset(Results_2014_Regular_Detected$CONCEN, !is.na(match(Results_2014_Regular_Detected$SAMPLE_PK,lowGrade_14_PK))) #Concentration results matching sample primary keys without high grade labels.
+
+#***
 
 ##Print the statistics of the concentration amount for samples with and without high grade labels, respectively.
 
 cat("Statistics - Residue Concentration in Fancy Grade Samples\n") #Print label for the statistics below.
 print(summary(highGrade_14_CONCEN)) #Print basic statistics for concentration found in high grade samples.
-cat("Std Dev:",sd(highGrade_14_CONCEN),"\n\n") #Print the standard deviation for these samples.
+cat("Std Dev:",sd(highGrade_14_CONCEN, na.rm=TRUE), "\n\n") #Print the standard deviation for these samples.
 
 cat("Statistics - Residue Concentration in Normal Grade Samples\n") #Print label for the statistics below.
 print(summary(lowGrade_14_CONCEN)) #Print basic statistics for concentration found in normal grade samples.
-cat("Std Dev:",sd(lowGrade_14_CONCEN), "\n\n") #Print the standard deviation for these samples.
+cat("Std Dev:",sd(lowGrade_14_CONCEN, na.rm=TRUE), "\n\n") #Print the standard deviation for these samples.
+
+#***
 
 stat_14_grade <- data.frame(length(highGrade_14_PK), round(length(highGrade_14_Pestcode)/length(highGrade_14_PK),3), round(mean(highGrade_14_CONCEN),3)) #Create data frame with # of samples with high grade labels, average number of pesticides found per such sample (rounded to 3 decimal places), and the average residue concentration amount (rounded to 3 decimal places) for those samples.
+
 colnames(stat_14_grade) <- c("# of Samples", "Avg # of Pesticides", "Avg Concentration") #Rename column headers for clarification.
 
 tempStat_14_lowGrade <- data.frame(length(lowGrade_14_PK), round(length(lowGrade_14_Pestcode)/length(lowGrade_14_PK), 3), round(mean(lowGrade_14_CONCEN), 3)) #store the same type of data as above for samples without high grade labels in a temporary data frame.
+
 colnames(tempStat_14_lowGrade) <- c("# of Samples", "Avg # of Pesticides", "Avg Concentration")  #Rename column headers for clarification.
 
 stat_14_grade <- rbind(stat_14_grade, tempStat_14_lowGrade ) #Merge the normal grade stats vertically as a new row into the data frame with the high grade stats.
@@ -224,6 +284,8 @@ if (suppressWarnings(!require("plyr"))) {
   install.packages("plyr")
 }
 library(plyr)
+
+#***
 
 # 1) Find the most frequently appearing pesticides in the 2014 data with corresponding average concentrations.
 
@@ -382,32 +444,55 @@ Percent_Detected_Samples <- data.frame(Year = c(2014, 2004), Percent_All, Percen
 
 ##Basic statistics for this section - print summary statistics for the 6 pesticide frequency and average concentration data subsets created above, with the corresponding standard deviation for average concentration.
 
+
 # basic statistics for the 2014 pesticide frequency and average concentration data subset.
+
 cat("Statistics - 2014 Pesticide Frequency and Average Concentration\n") #Print title for the statistics below.
 print(summary(pest_summary_14)) #Print summary statistics.
-cat("Std Dev:",sd(pest_summary_14$`Average Concentration`),"\n\n") #Print the standard deviation for the average concentration.
+
+cat("Std Dev:",sd(pest_summary_14$`Average Concentration`, na.rm=TRUE), "\n\n") #Print the standard deviation for the average concentration.
+
+#***
 
 # basic statistics for the 2004 pesticide frequency and average concentration data subset.
+
 cat("Statistics - 2004 Pesticide Frequency and Average Concentration\n") #Print title for the statistics below.
 print(summary(pest_summary_04)) #Print basic statistics for the 2004 pesticide frequency and average concentration data subset.
-cat("Std Dev:",sd(pest_summary_04$`Average Concentration`),"\n\n") #Print the standard deviation for the average concentration.
+
+cat("Std Dev:",sd(pest_summary_04$`Average Concentration`, na.rm=TRUE), "\n\n") #Print the standard deviation for the average concentration.
+
+#***
 
 # basic statistics for the 2014 organic sample pesticide frequency and average concentration data subset.
+
 cat("Statistics - 2014 Organic Pesticide Frequency and Average Concentration\n") #Print title for the statistics below.
 print(summary(pest_summary_org_14)) #Print summary statistics.
-cat("Std Dev:",sd(pest_summary_org_14$`Average Concentration`),"\n\n") #Print the standard deviation for the average concentration.
+
+cat("Std Dev:",sd(pest_summary_org_14$`Average Concentration`, na.rm=TRUE), "\n\n") #Print the standard deviation for the average concentration.
+
+#***
 
 # basic statistics for the 2004 organic sample pesticide frequency and average concentration data subset.
+
 cat("Statistics - 2004 Organic Pesticide Frequency and Average Concentration\n") #Print title for the statistics below.
 print(summary(pest_summary_org_04)) #Print basic statistics for the 2004 pesticide frequency and average concentration data subset.
-cat("Std Dev:",sd(pest_summary_org_04$`Average Concentration`),"\n\n") #Print the standard deviation for the average concentration.
+
+cat("Std Dev:",sd(pest_summary_org_04$`Average Concentration`, na.rm=TRUE), "\n\n") #Print the standard deviation for the average concentration.
+
+#***
 
 # basic statistics for the 2014 conventional sample pesticide frequency and average concentration data subset.
+
 cat("Statistics - 2014 Conventional Pesticide Frequency and Average Concentration\n") #Print title for the statistics below.
 print(summary(pest_summary_reg_14)) #Print summary statistics.
-cat("Std Dev:",sd(pest_summary_reg_14$`Average Concentration`),"\n\n") #Print the standard deviation for the average concentration.
+
+cat("Std Dev:",sd(pest_summary_reg_14$`Average Concentration`, na.rm=TRUE), "\n\n") #Print the standard deviation for the average concentration.
+
+#***
 
 # basic statistics for the 2004 conventional sample pesticide frequency and average concentration data subset.
+
 cat("Statistics - 2004 Conventional Pesticide Frequency and Average Concentration\n") #Print title for the statistics below.
 print(summary(pest_summary_reg_04)) #Print basic statistics for the 2004 pesticide frequency and average concentration data subset.
-cat("Std Dev:",sd(pest_summary_reg_04$`Average Concentration`),"\n\n") #Print the standard deviation for the average concentration.
+
+cat("Std Dev:",sd(pest_summary_reg_04$`Average Concentration`, na.rm=TRUE), "\n\n") #Print the standard deviation for the average concentration.
